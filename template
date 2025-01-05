@@ -1,0 +1,166 @@
+import React, { useState } from 'react';
+import { 
+  Star, 
+  GitFork, 
+  Eye, 
+  Code, 
+  BookOpen, 
+  AlertCircle, 
+  Play, 
+  Settings,
+  GitBranch,
+  Clock,
+  Home,
+  GraduationCap,
+  Briefcase
+} from 'lucide-react';
+
+const GitHubInterface = () => {
+  const [activeTab, setActiveTab] = useState('home');
+  
+  // Sample repository data
+  const repoData = {
+    name: "awesome-project",
+    description: "A modern web application template built with React and Tailwind CSS",
+    stars: 1234,
+    forks: 567,
+    watchers: 890,
+    license: "MIT",
+    lastUpdated: "2 hours ago",
+    defaultBranch: "main",
+    openIssues: 23,
+    language: "TypeScript",
+  };
+
+  const TabButton = ({ icon: Icon, label, value }) => (
+    <button
+      onClick={() => setActiveTab(value)}
+      className={`flex items-center px-4 py-2 text-sm border-b-2 hover:bg-gray-100 
+        ${activeTab === value 
+          ? 'border-red-500 font-medium' 
+          : 'border-transparent text-gray-600'}`}
+    >
+      <Icon className="w-4 h-4 mr-2" />
+      <span>{label}</span>
+    </button>
+  );
+
+  const StatBadge = ({ icon: Icon, value, label }) => (
+    <div className="flex items-center mr-4 text-gray-600">
+      <Icon className="w-4 h-4 mr-1" />
+      <button className="hover:text-blue-600 hover:underline">
+        {value} {label}
+      </button>
+    </div>
+  );
+
+  return (
+    <div className="max-w-6xl mx-auto p-4">
+      {/* Header */}
+      <div className="mb-6">
+        <div className="flex items-center mb-2">
+          <h1 className="text-2xl font-semibold text-gray-900 mr-2">
+            {repoData.name}
+          </h1>
+          <span className="px-2 py-1 text-xs font-medium text-gray-600 bg-gray-100 rounded-full">
+            Public
+          </span>
+        </div>
+        <p className="text-gray-600 mb-4">{repoData.description}</p>
+        
+        {/* Repository stats */}
+        <div className="flex items-center mb-4">
+          <StatBadge icon={Star} value={repoData.stars} label="stars" />
+          <StatBadge icon={GitFork} value={repoData.forks} label="forks" />
+          <StatBadge icon={Eye} value={repoData.watchers} label="watching" />
+        </div>
+
+        {/* Branch selector and metadata */}
+        <div className="flex items-center space-x-2 mb-4">
+          <button className="px-3 py-1 text-sm border rounded-md hover:bg-gray-50 flex items-center">
+            <GitBranch className="w-4 h-4 mr-1" />
+            {repoData.defaultBranch}
+          </button>
+          <span className="text-sm text-gray-600 flex items-center">
+            <Clock className="w-4 h-4 mr-1" />
+            Updated {repoData.lastUpdated}
+          </span>
+        </div>
+      </div>
+
+      {/* Primary Navigation tabs */}
+      <div className="border-b mb-4">
+        <nav className="flex">
+          <TabButton icon={Home} label="Home" value="home" />
+          <TabButton icon={GraduationCap} label="Course Project Introduction" value="course" />
+          <TabButton icon={Briefcase} label="Business Cases" value="cases" />
+        </nav>
+      </div>
+
+      {/* Secondary Navigation tabs */}
+      <div className="border-b mb-6">
+        <nav className="flex">
+          <TabButton icon={Code} label="Code" value="code" />
+          <TabButton icon={AlertCircle} label="Issues" value="issues" />
+          <TabButton icon={GitFork} label="Pull requests" value="pulls" />
+          <TabButton icon={Play} label="Actions" value="actions" />
+          <TabButton icon={BookOpen} label="Wiki" value="wiki" />
+          <TabButton icon={Settings} label="Settings" value="settings" />
+        </nav>
+      </div>
+
+      {/* Main content area */}
+      <div className="border rounded-lg p-4">
+        {/* Home tab content */}
+        {activeTab === 'home' && (
+          <div className="text-gray-600">
+            <h2 className="text-xl font-semibold mb-4">Welcome to the Project</h2>
+            <p>Home page content goes here</p>
+          </div>
+        )}
+
+        {/* Course Project Introduction tab content */}
+        {activeTab === 'course' && (
+          <div className="text-gray-600">
+            <h2 className="text-xl font-semibold mb-4">Course Project Introduction</h2>
+            <p>Course project details and introduction content goes here</p>
+          </div>
+        )}
+
+        {/* Business Cases tab content */}
+        {activeTab === 'cases' && (
+          <div className="text-gray-600">
+            <h2 className="text-xl font-semibold mb-4">Business Cases</h2>
+            <p>Business cases and examples content goes here</p>
+          </div>
+        )}
+
+        {/* Code tab content */}
+        {activeTab === 'code' && (
+          <div>
+            <div className="bg-gray-50 p-4 rounded-md mb-4">
+              <div className="flex items-center text-sm text-gray-600">
+                <Code className="w-4 h-4 mr-2" />
+                <span>
+                  Primary language: <strong>{repoData.language}</strong>
+                </span>
+              </div>
+            </div>
+            <div className="text-gray-600 text-sm">
+              Repository code content goes here
+            </div>
+          </div>
+        )}
+        
+        {/* Other tabs content */}
+        {!['home', 'course', 'cases', 'code'].includes(activeTab) && (
+          <div className="text-gray-600 text-sm">
+            Content for the {activeTab} tab goes here
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default GitHubInterface;
